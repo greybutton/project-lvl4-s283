@@ -11,4 +11,5 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
+const { gon } = window;
 app(gon);
