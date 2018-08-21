@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
+import app from './index.jsx';
 
 // import faker from 'faker';
 // import gon from 'gon';
@@ -9,3 +10,5 @@ import '../assets/application.css';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
+
+app(gon);
