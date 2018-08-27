@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { getCookies } from '../cookies';
 
 class NewMessageForm extends React.Component {
   state = {
@@ -17,7 +18,14 @@ class NewMessageForm extends React.Component {
 
   addMessage = (values) => {
     const { addMessage, currentChannelId, reset } = this.props;
-    addMessage(currentChannelId, values);
+    const username = getCookies('username');
+    const createdAt = new Date();
+    const value = {
+      ...values,
+      username,
+      createdAt,
+    };
+    addMessage(currentChannelId, value);
     reset();
   }
 
