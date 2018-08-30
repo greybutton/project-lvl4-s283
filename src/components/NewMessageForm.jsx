@@ -1,22 +1,24 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import connect from '../connect';
 import { getCookies } from '../cookies';
 
+const mapStateToProps = ({ messageCreatingState, currentChannelId }) => {
+  const props = {
+    messageCreatingState,
+    currentChannelId,
+  };
+  return props;
+};
+
+@connect(mapStateToProps)
+@reduxForm({ form: 'newMessage' })
 class NewMessageForm extends React.Component {
   state = {
-    text: 'jopa',
+    text: '',
   }
 
-  componentDidUpdate() {
-    const { text } = this.state;
-    const { messageCreatingState, change } = this.props;
-    const failed = messageCreatingState === 'failed';
-    if (failed) {
-      change('message', text);
-    }
-  }
-
-  addMessage = (values) => {
+  addMessage = async (values) => {
     const { addMessage, currentChannelId, reset } = this.props;
     const username = getCookies('username');
     const createdAt = new Date();
@@ -25,7 +27,7 @@ class NewMessageForm extends React.Component {
       username,
       createdAt,
     };
-    addMessage(currentChannelId, value);
+    await addMessage(currentChannelId, value);
     reset();
   }
 
@@ -35,9 +37,14 @@ class NewMessageForm extends React.Component {
   };
 
   render() {
-    const { messageCreatingState, handleSubmit } = this.props;
-    const disabled = messageCreatingState === 'requested';
+    const { text } = this.state;
+    const {
+      messageCreatingState, handleSubmit, change, submitting,
+    } = this.props;
     const failed = messageCreatingState === 'failed';
+    if (failed) {
+      change('message', text);
+    }
 
     return (
       <form onSubmit={handleSubmit(this.addMessage)}>
@@ -47,17 +54,15 @@ class NewMessageForm extends React.Component {
             name="message"
             component="input"
             className="form-control"
-            disabled={disabled}
+            disabled={submitting}
             onChange={this.handleChange}
           />
         </div>
-        {disabled && <div>Sending</div>}
+        {submitting && <div>Sending</div>}
         {failed && <div>Error. Try again.</div>}
       </form>
     );
   }
 }
 
-export default reduxForm({
-  form: 'newMessage',
-})(NewMessageForm);
+export default NewMessageForm;

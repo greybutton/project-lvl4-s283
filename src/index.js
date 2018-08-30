@@ -1,9 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import gon from 'gon';
 import io from 'socket.io-client';
 import faker from 'faker';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
+
 import * as actionCreators from './actions';
 import app from './index.jsx';
 import { setCookies } from './cookies';

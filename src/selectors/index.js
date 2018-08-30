@@ -6,7 +6,7 @@ export const channelsSelector = createSelector(
   channels => channels,
 );
 
-export const getMessages = state => state.messages;
+export const getMessages = state => state.messages.reverse();
 export const messagesSelector = createSelector(
   getMessages,
   messages => messages,
