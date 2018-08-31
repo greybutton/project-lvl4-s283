@@ -14,12 +14,10 @@ const mapStateToProps = ({ messageCreatingState, currentChannelId }) => {
 @connect(mapStateToProps)
 @reduxForm({ form: 'newMessage' })
 class NewMessageForm extends React.Component {
-  state = {
-    text: '',
-  }
-
   addMessage = async (values) => {
-    const { addMessage, currentChannelId, reset } = this.props;
+    const {
+      addMessage, currentChannelId,
+    } = this.props;
     const username = getCookies('username');
     const createdAt = new Date();
     const value = {
@@ -28,23 +26,13 @@ class NewMessageForm extends React.Component {
       createdAt,
     };
     await addMessage(currentChannelId, value);
-    reset();
   }
 
-  handleChange = (e) => {
-    const { value } = e.target;
-    this.setState({ text: value });
-  };
-
   render() {
-    const { text } = this.state;
     const {
-      messageCreatingState, handleSubmit, change, submitting,
+      messageCreatingState, handleSubmit, submitting,
     } = this.props;
     const failed = messageCreatingState === 'failed';
-    if (failed) {
-      change('message', text);
-    }
 
     return (
       <form onSubmit={handleSubmit(this.addMessage)}>

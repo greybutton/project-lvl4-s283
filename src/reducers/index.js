@@ -26,10 +26,24 @@ const messages = handleActions({
 
 const currentChannelId = handleActions({}, 0);
 
+const form = {
+  newMessage: handleActions({
+    [actions.addMessageFailure](state) {
+      const newState = {
+        values: state.values,
+      };
+      return newState;
+    },
+    [actions.addMessageSuccess]() {
+      return undefined;
+    },
+  }, {}),
+};
+
 export default combineReducers({
   messageCreatingState,
   channels,
   messages,
   currentChannelId,
-  form: formReducer,
+  form: formReducer.plugin(form),
 });
