@@ -36,6 +36,14 @@ const channels = handleActions({
     const { data: { id } } = payload;
     return state.filter(channel => channel.id !== id);
   },
+  [actions.updateChannelSuccess](state, { payload }) {
+    const { data: { id, attributes } } = payload;
+    const index = state.findIndex(channel => channel.id === id);
+    const start = state.slice(0, index);
+    const end = state.slice(index + 1);
+    const newState = [...start, attributes, ...end];
+    return newState;
+  },
 }, []);
 
 const messages = handleActions({

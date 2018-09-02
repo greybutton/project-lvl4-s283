@@ -53,3 +53,18 @@ export const removeChannel = (id, closeModal) => async (dispatch) => {
     dispatch(removeChannelFailure());
   }
 };
+
+export const updateChannelRequest = createAction('CHANNEL_UPDATE_REQUEST');
+export const updateChannelSuccess = createAction('CHANNEL_UPDATE_SUCCESS');
+export const updateChannelFailure = createAction('CHANNEL_UPDATE_FAILURE');
+
+export const updateChannel = (channel, closeModal) => async (dispatch) => {
+  dispatch(updateChannelRequest());
+  try {
+    const data = { attributes: channel };
+    await axios.patch(routes.channelUrl(channel.id), { data });
+    closeModal();
+  } catch (e) {
+    dispatch(updateChannelFailure());
+  }
+};

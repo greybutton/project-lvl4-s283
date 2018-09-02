@@ -30,3 +30,7 @@ socket.on('newChannel', (data) => {
 socket.on('removeChannel', (data) => {
   appStore.dispatch(actionCreators.removeChannelSuccess(data));
 });
+
+socket.on('renameChannel', (data) => {
+  appStore.dispatch(actionCreators.updateChannelSuccess(data));
+});

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import {
   Modal, ModalHeader, ModalBody, ModalFooter,
@@ -17,15 +18,38 @@ const mapStateToProps = (state) => {
 };
 
 @connect(mapStateToProps)
+@reduxForm({ form: 'updateChannel' })
 class ChannelsList extends React.Component {
   state = {
     removeChannelModal: false,
     removeChannelId: null,
+    editChannelModal: false,
+    editChannel: null,
   }
 
   handleClickChannel = (id) => {
     const { changeCurrentChannelId } = this.props;
     changeCurrentChannelId(id);
+  }
+
+  handleEditModalOpen = (channel) => {
+    this.setState({ editChannelModal: true, editChannel: channel });
+  }
+
+  handleEditModalClose = () => {
+    const { reset } = this.props;
+    this.setState({ editChannelModal: false, editChannel: null });
+    reset();
+  }
+
+  handleEditChannel = (values) => {
+    const { editChannel } = this.state;
+    const { updateChannel } = this.props;
+    const newChannel = {
+      ...editChannel,
+      ...values,
+    };
+    updateChannel(newChannel, this.handleEditModalClose);
   }
 
   handleRemoveModalOpen = (id) => {
@@ -70,6 +94,13 @@ class ChannelsList extends React.Component {
               <button
                 type="button"
                 className="btn btn-link"
+                onClick={() => this.handleEditModalOpen(channel)}
+              >
+                <FontAwesomeIcon icon="edit" color="black" />
+              </button>
+              <button
+                type="button"
+                className="btn btn-link"
                 onClick={() => this.handleRemoveModalOpen(channel.id)}
               >
                 <FontAwesomeIcon icon="trash-alt" color="black" />
@@ -82,14 +113,52 @@ class ChannelsList extends React.Component {
   }
 
   render() {
-    const { removeChannelModal, removeChannelId } = this.state;
-    const { channels } = this.props;
+    const {
+      removeChannelModal, editChannelModal, removeChannelId, editChannel,
+    } = this.state;
+    const {
+      channels, handleSubmit,
+    } = this.props;
 
     return (
       <React.Fragment>
         <div className="list-group w-100">
           {channels.map(channel => this.renderChannel(channel))}
         </div>
+        {editChannelModal && (
+          <Modal isOpen={editChannelModal} toggle={this.handleEditModalClose}>
+            <ModalHeader toggle={this.handleEditModalClose}>
+            Edit channel
+            </ModalHeader>
+            <ModalBody>
+              <form onSubmit={handleSubmit(this.handleEditChannel)}>
+                <Field
+                  required
+                  name="name"
+                  component="input"
+                  className="form-control"
+                  value={editChannel.name}
+                />
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleSubmit(this.handleEditChannel)}
+              >
+              Update
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={this.handleEditModalClose}
+              >
+              Cancel
+              </button>
+            </ModalFooter>
+          </Modal>
+        )}
         <Modal isOpen={removeChannelModal} toggle={this.handleRemoveModalClose}>
           <ModalHeader toggle={this.handleRemoveModalClose}>
             Remove channel
