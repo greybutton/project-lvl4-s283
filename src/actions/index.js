@@ -20,3 +20,4 @@ export const addMessage = (channelId, values, reset) => async (dispatch) => {
 };
 
 export const receiveMessageState = createAction('MESSAGE_STATE_RECEIVE');
+export const changeCurrentChannelId = createAction('CHANNEL_CHANGE_CURRENT_ID');

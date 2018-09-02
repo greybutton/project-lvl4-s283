@@ -43,7 +43,7 @@ class NewMessageForm extends React.Component {
             component="input"
             className="form-control"
             disabled={submitting}
-            onChange={this.handleChange}
+            autoFocus
           />
         </div>
         {submitting && <div>Sending</div>}
