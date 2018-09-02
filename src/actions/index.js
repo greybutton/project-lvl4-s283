@@ -39,3 +39,17 @@ export const addChannel = (values, reset) => async (dispatch) => {
 };
 
 export const receiveChannelState = createAction('CHANNEL_STATE_RECEIVE');
+
+export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
+export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
+export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
+
+export const removeChannel = (id, closeModal) => async (dispatch) => {
+  dispatch(removeChannelRequest());
+  try {
+    await axios.delete(routes.channelUrl(id));
+    closeModal();
+  } catch (e) {
+    dispatch(removeChannelFailure());
+  }
+};

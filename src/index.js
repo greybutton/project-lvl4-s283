@@ -26,3 +26,7 @@ socket.on('newMessage', (data) => {
 socket.on('newChannel', (data) => {
   appStore.dispatch(actionCreators.receiveChannelState(data));
 });
+
+socket.on('removeChannel', (data) => {
+  appStore.dispatch(actionCreators.removeChannelSuccess(data));
+});

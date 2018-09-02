@@ -26,8 +26,8 @@ class NewChannelForm extends React.Component {
     const failed = channelCreatingState === 'failed';
 
     return (
-      <form onSubmit={handleSubmit(this.addChannel)}>
-        <div className="input-group mb-3">
+      <form className="mb-3" onSubmit={handleSubmit(this.addChannel)}>
+        <div className="input-group">
           <Field
             required
             name="name"
@@ -43,9 +43,9 @@ class NewChannelForm extends React.Component {
               Add
             </button>
           </div>
-          {submitting && <div>Sending</div>}
-          {failed && <div>Error. Try again.</div>}
         </div>
+        {submitting && <div>Sending</div>}
+        {failed && <div>Error. Try again.</div>}
       </form>
     );
   }

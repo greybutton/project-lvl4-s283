@@ -1,8 +1,13 @@
 import React from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
 import NewChannelForm from './NewChannelForm';
 import NewMessageForm from './NewMessageForm';
 import ChannelsList from './ChannelsList';
 import MessagesList from './MessagesList';
+
+library.add(faTrashAlt);
 
 const App = () => (
   <div className="container">

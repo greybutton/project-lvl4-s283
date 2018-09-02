@@ -32,6 +32,10 @@ const channels = handleActions({
     const { data: { attributes } } = payload;
     return state.concat(attributes);
   },
+  [actions.removeChannelSuccess](state, { payload }) {
+    const { data: { id } } = payload;
+    return state.filter(channel => channel.id !== id);
+  },
 }, []);
 
 const messages = handleActions({
