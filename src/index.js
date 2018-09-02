@@ -22,3 +22,7 @@ const socket = io();
 socket.on('newMessage', (data) => {
   appStore.dispatch(actionCreators.receiveMessageState(data));
 });
+
+socket.on('newChannel', (data) => {
+  appStore.dispatch(actionCreators.receiveChannelState(data));
+});

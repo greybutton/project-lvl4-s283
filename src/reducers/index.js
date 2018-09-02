@@ -3,6 +3,18 @@ import { handleActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
 import * as actions from '../actions';
 
+const channelCreatingState = handleActions({
+  [actions.addChannelRequest]() {
+    return 'requested';
+  },
+  [actions.addChannelFailure]() {
+    return 'failed';
+  },
+  [actions.addChannelSuccess]() {
+    return 'successed';
+  },
+}, 'none');
+
 const messageCreatingState = handleActions({
   [actions.addMessageRequest]() {
     return 'requested';
@@ -15,7 +27,12 @@ const messageCreatingState = handleActions({
   },
 }, 'none');
 
-const channels = handleActions({}, []);
+const channels = handleActions({
+  [actions.receiveChannelState](state, { payload }) {
+    const { data: { attributes } } = payload;
+    return state.concat(attributes);
+  },
+}, []);
 
 const messages = handleActions({
   [actions.receiveMessageState](state, { payload }) {
@@ -31,6 +48,7 @@ const currentChannelId = handleActions({
 }, 0);
 
 export default combineReducers({
+  channelCreatingState,
   messageCreatingState,
   channels,
   messages,

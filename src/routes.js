@@ -23,7 +23,7 @@ const host = '/api/v1';
 
 
 export default {
-  channlesUrl: () => [host, 'channles'].join('/'),
+  channelsUrl: () => [host, 'channels'].join('/'),
   channelUrl: id => [host, 'channels', id].join('/'),
   messagesUrl: id => [host, 'channels', id, 'messages'].join('/'),
 };

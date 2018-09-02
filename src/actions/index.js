@@ -21,3 +21,21 @@ export const addMessage = (channelId, values, reset) => async (dispatch) => {
 
 export const receiveMessageState = createAction('MESSAGE_STATE_RECEIVE');
 export const changeCurrentChannelId = createAction('CHANNEL_CHANGE_CURRENT_ID');
+
+export const addChannelRequest = createAction('CHANNEL_ADD_REQUEST');
+export const addChannelSuccess = createAction('CHANNEL_ADD_SUCCESS');
+export const addChannelFailure = createAction('CHANNEL_ADD_FAILURE');
+
+export const addChannel = (values, reset) => async (dispatch) => {
+  dispatch(addChannelRequest());
+  try {
+    const data = { attributes: { ...values } };
+    await axios.post(routes.channelsUrl(), { data });
+    dispatch(addChannelSuccess());
+    reset();
+  } catch (e) {
+    dispatch(addChannelFailure());
+  }
+};
+
+export const receiveChannelState = createAction('CHANNEL_STATE_RECEIVE');
