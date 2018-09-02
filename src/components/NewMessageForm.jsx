@@ -16,7 +16,7 @@ const mapStateToProps = ({ messageCreatingState, currentChannelId }) => {
 class NewMessageForm extends React.Component {
   addMessage = async (values) => {
     const {
-      addMessage, currentChannelId,
+      addMessage, currentChannelId, reset,
     } = this.props;
     const username = getCookies('username');
     const createdAt = new Date();
@@ -25,7 +25,7 @@ class NewMessageForm extends React.Component {
       username,
       createdAt,
     };
-    await addMessage(currentChannelId, value);
+    await addMessage(currentChannelId, value, reset);
   }
 
   render() {
