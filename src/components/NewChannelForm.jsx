@@ -12,11 +12,11 @@ const mapStateToProps = ({ channelCreatingState }) => {
 @connect(mapStateToProps)
 @reduxForm({ form: 'newChannel' })
 class NewChannelForm extends React.Component {
-  addChannel = async (values) => {
+  addChannel = (values) => {
     const {
       addChannel, reset,
     } = this.props;
-    await addChannel(values, reset);
+    addChannel(values, reset);
   }
 
   render() {

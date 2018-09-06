@@ -14,7 +14,7 @@ const mapStateToProps = ({ messageCreatingState, currentChannelId }) => {
 @connect(mapStateToProps)
 @reduxForm({ form: 'newMessage' })
 class NewMessageForm extends React.Component {
-  addMessage = async (values) => {
+  addMessage = (values) => {
     const {
       addMessage, currentChannelId, reset,
     } = this.props;
@@ -25,7 +25,7 @@ class NewMessageForm extends React.Component {
       username,
       createdAt,
     };
-    await addMessage(currentChannelId, value, reset);
+    addMessage(currentChannelId, value, reset);
   }
 
   render() {
@@ -35,17 +35,15 @@ class NewMessageForm extends React.Component {
     const failed = messageCreatingState === 'failed';
 
     return (
-      <form onSubmit={handleSubmit(this.addMessage)}>
-        <div className="message">
-          <Field
-            required
-            name="message"
-            component="input"
-            className="form-control"
-            disabled={submitting}
-            autoFocus
-          />
-        </div>
+      <form className="mb-3" onSubmit={handleSubmit(this.addMessage)}>
+        <Field
+          required
+          name="message"
+          component="input"
+          className="form-control"
+          disabled={submitting}
+          autoFocus
+        />
         {submitting && <div>Sending</div>}
         {failed && <div>Error. Try again.</div>}
       </form>
