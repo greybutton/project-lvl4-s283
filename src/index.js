@@ -1,6 +1,8 @@
 import gon from 'gon';
 import io from 'socket.io-client';
 import faker from 'faker';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
@@ -12,6 +14,9 @@ import { setCookies } from './cookies';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 const randomName = faker.name.findName();
 setCookies('username', randomName);

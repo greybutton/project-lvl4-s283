@@ -32,7 +32,8 @@ class ChannelsList extends React.Component {
     changeCurrentChannelId(id);
   }
 
-  handleEditModalOpen = (channel) => {
+  handleEditModalOpen = (e, channel) => {
+    e.stopPropagation();
     this.setState({ editChannelModal: true, editChannel: channel });
   }
 
@@ -52,7 +53,8 @@ class ChannelsList extends React.Component {
     updateChannel(newChannel, this.handleEditModalClose);
   }
 
-  handleRemoveModalOpen = (id) => {
+  handleRemoveModalOpen = (e, id) => {
+    e.stopPropagation();
     this.setState({ removeChannelModal: true, removeChannelId: id });
   }
 
@@ -68,13 +70,11 @@ class ChannelsList extends React.Component {
   renderChannel = (channel) => {
     const { currentChannelId } = this.props;
     const getClassChannel = id => classNames({
-      'list-group-item': true,
-      'channel-item': true,
+      'list-group-item p-0': true,
       active: id === currentChannelId,
     });
     const getClassChannelBtn = id => classNames({
-      btn: true,
-      'btn-channel-item': true,
+      'btn w-100 d-flex justify-content-between align-items-center rounded-0': true,
       'btn-primary': id === currentChannelId,
       'btn-link': id !== currentChannelId,
     });
@@ -87,27 +87,27 @@ class ChannelsList extends React.Component {
           onClick={() => this.handleClickChannel(channel.id)}
         >
           {channel.name}
-        </button>
-        {channel.removable && (
-          <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div className="btn-group" role="group" aria-label="Third group">
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() => this.handleEditModalOpen(channel)}
-              >
-                <FontAwesomeIcon icon="edit" color="black" />
-              </button>
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() => this.handleRemoveModalOpen(channel.id)}
-              >
-                <FontAwesomeIcon icon="trash-alt" color="black" />
-              </button>
+          {channel.removable && (
+            <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div className="btn-group" role="group" aria-label="Third group">
+                <button
+                  type="button"
+                  className="btn btn-link border-0 pt-0 pb-0"
+                  onClick={e => this.handleEditModalOpen(e, channel)}
+                >
+                  <FontAwesomeIcon icon="edit" color="black" />
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-link border-0 pt-0 pb-0 pr-0"
+                  onClick={e => this.handleRemoveModalOpen(e, channel.id)}
+                >
+                  <FontAwesomeIcon icon="trash-alt" color="black" />
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </button>
       </li>
     );
   }

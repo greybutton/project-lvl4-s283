@@ -1,31 +1,3 @@
 .fade.in {
   opacity: 1;
 }
-
-.channel-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-}
-
-.channel-item .btn-toolbar {
-  display: none;
-}
-
-.channel-item:hover .btn-toolbar {
-  display: flex;
-}
-
-.btn-channel-item {
-  width: 100%;
-  text-align: left;
-}
-
-.btn-channel-item:hover {
-  background: transparent;
-  border: solid 1px transparent;
-}
-
-.btn-channel-item:focus {
-  box-shadow: none;
-}

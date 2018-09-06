@@ -16,7 +16,7 @@ class MessagesList extends React.Component {
     const { messages } = this.props;
 
     return (
-      <div className="messages">
+      <React.Fragment>
         {messages.map(message => (
           <React.Fragment key={message.id}>
             <div>
@@ -29,7 +29,7 @@ class MessagesList extends React.Component {
             </p>
           </React.Fragment>
         ))}
-      </div>
+      </React.Fragment>
     );
   }
 }
