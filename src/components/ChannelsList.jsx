@@ -123,7 +123,7 @@ class ChannelsList extends React.Component {
     return (
       <React.Fragment>
         <div className="list-group w-100">
-          {channels.map(channel => this.renderChannel(channel))}
+          {channels.allIds.map(id => this.renderChannel(channels.byId[id]))}
         </div>
         {editChannelModal && (
           <Modal isOpen={editChannelModal} toggle={this.handleEditModalClose}>

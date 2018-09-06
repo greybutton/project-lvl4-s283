@@ -38,7 +38,7 @@ class NewChannelForm extends React.Component {
           <div className="input-group-append">
             <button
               className="btn btn-outline-secondary"
-              type="button"
+              type="submit"
             >
               Add
             </button>

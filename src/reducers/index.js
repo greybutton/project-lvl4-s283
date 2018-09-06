@@ -29,22 +29,43 @@ const messageCreatingState = handleActions({
 
 const channels = handleActions({
   [actions.receiveChannelState](state, { payload }) {
-    const { data: { attributes } } = payload;
-    return state.concat(attributes);
-  },
-  [actions.removeChannelSuccess](state, { payload }) {
-    const { data: { id } } = payload;
-    return state.filter(channel => channel.id !== id);
-  },
-  [actions.updateChannelSuccess](state, { payload }) {
-    const { data: { id, attributes } } = payload;
-    const index = state.findIndex(channel => channel.id === id);
-    const start = state.slice(0, index);
-    const end = state.slice(index + 1);
-    const newState = [...start, attributes, ...end];
+    const { byId, allIds } = state;
+    const { data: { attributes, id } } = payload;
+    const newState = {
+      byId: {
+        ...byId,
+        [id]: attributes,
+      },
+      allIds: [...allIds, id],
+    };
     return newState;
   },
-}, []);
+  [actions.removeChannelSuccess](state, { payload }) {
+    const { byId, allIds } = state;
+    const { data: { id } } = payload;
+    const newAllIds = allIds.filter(idx => idx !== id);
+    const newState = {
+      byId,
+      allIds: newAllIds,
+    };
+    return newState;
+  },
+  [actions.updateChannelSuccess](state, { payload }) {
+    const { byId, allIds } = state;
+    const { data: { attributes, id } } = payload;
+    const newState = {
+      byId: {
+        ...byId,
+        [id]: attributes,
+      },
+      allIds,
+    };
+    return newState;
+  },
+}, {
+  byId: {},
+  allIds: [],
+});
 
 const messages = handleActions({
   [actions.receiveMessageState](state, { payload }) {

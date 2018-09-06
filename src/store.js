@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+import normalize from './normalize';
 import reducers from './reducers';
 
 const middlewares = [thunk];
@@ -25,6 +26,6 @@ const enhancer = composeEnhancers(
 
 export default gon => createStore(
   reducers,
-  gon,
+  normalize(gon),
   enhancer,
 );
