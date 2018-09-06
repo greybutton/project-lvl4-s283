@@ -9,7 +9,7 @@ import connect from '../connect';
 import { channelsSelector } from '../selectors';
 
 const mapStateToProps = (state) => {
-  const { currentChannelId, editChannelState, deleteChannelState } = state;
+  const { result: { currentChannelId }, editChannelState, deleteChannelState } = state;
   const props = {
     channels: channelsSelector(state),
     currentChannelId,
@@ -183,7 +183,7 @@ class ChannelsList extends React.Component {
     return (
       <React.Fragment>
         <div className="list-group w-100">
-          {channels.allIds.map(id => this.renderChannel(channels.byId[id]))}
+          {channels.map(channel => this.renderChannel(channel))}
         </div>
         {this.renderEditChannelModal()}
         {this.renderRemoveChannelModal()}

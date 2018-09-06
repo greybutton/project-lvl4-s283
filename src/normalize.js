@@ -1,18 +1,8 @@
+import { normalize, schema } from 'normalizr';
+
 export default (data) => {
-  const { channels, messages, currentChannelId } = data;
-  const byId = channels.reduce((acc, channel) => ({
-    ...acc,
-    [channel.id]: channel,
-  }), {});
-  const allIds = channels.map(channel => channel.id);
-  const newChannels = {
-    byId,
-    allIds,
-  };
-  const result = {
-    channels: newChannels,
-    messages,
-    currentChannelId,
-  };
-  return result;
+  const channel = new schema.Entity('channels');
+  const mySchema = { channels: [channel] };
+  const normalizedData = normalize(data, mySchema);
+  return normalizedData;
 };

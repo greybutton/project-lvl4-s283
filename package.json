@@ -60,6 +60,7 @@
     "koa-static": "^3.0.0",
     "koa-webpack": "^3.0.2",
     "lodash": "^4.17.10",
+    "normalizr": "^3.2.4",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.2",

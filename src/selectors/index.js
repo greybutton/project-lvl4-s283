@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
-export const getChannels = state => state.channels;
+export const getChannels = state => state.entities.channels;
 export const channelsSelector = createSelector(
   getChannels,
-  channels => channels,
+  channels => Object.values(channels),
 );
 
 export const getMessages = (state) => {
-  const { currentChannelId, messages } = state;
+  const { result: { currentChannelId, messages } } = state;
   const result = messages.filter(message => message.channelId === currentChannelId).reverse();
   return result;
 };

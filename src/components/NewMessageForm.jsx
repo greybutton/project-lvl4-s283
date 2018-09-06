@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
 import { getCookies } from '../cookies';
 
-const mapStateToProps = ({ messageCreatingState, currentChannelId }) => {
+const mapStateToProps = ({ messageCreatingState, result: { currentChannelId } }) => {
   const props = {
     messageCreatingState,
     currentChannelId,

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { handleActions } from 'redux-actions';
+import { handleActions, combineActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
 import * as actions from '../actions';
 
@@ -27,59 +27,6 @@ const messageCreatingState = handleActions({
   },
 }, 'none');
 
-const channels = handleActions({
-  [actions.receiveChannel](state, { payload }) {
-    const { byId, allIds } = state;
-    const { data: { attributes, id } } = payload;
-    const newState = {
-      byId: {
-        ...byId,
-        [id]: attributes,
-      },
-      allIds: [...allIds, id],
-    };
-    return newState;
-  },
-  [actions.removeChannelSuccess](state, { payload }) {
-    const { byId, allIds } = state;
-    const { data: { id } } = payload;
-    const newAllIds = allIds.filter(idx => idx !== id);
-    const newState = {
-      byId,
-      allIds: newAllIds,
-    };
-    return newState;
-  },
-  [actions.updateChannelSuccess](state, { payload }) {
-    const { byId, allIds } = state;
-    const { data: { attributes, id } } = payload;
-    const newState = {
-      byId: {
-        ...byId,
-        [id]: attributes,
-      },
-      allIds,
-    };
-    return newState;
-  },
-}, {
-  byId: {},
-  allIds: [],
-});
-
-const messages = handleActions({
-  [actions.receiveMessage](state, { payload }) {
-    const { data: { attributes } } = payload;
-    return state.concat(attributes);
-  },
-}, []);
-
-const currentChannelId = handleActions({
-  [actions.changeCurrentChannelId](state, { payload }) {
-    return payload;
-  },
-}, 0);
-
 const editChannelState = handleActions({
   [actions.editChannel](state, { payload }) {
     return payload;
@@ -98,13 +45,91 @@ const deleteChannelState = handleActions({
   id: null,
 });
 
+const entities = handleActions({
+  [combineActions(actions.receiveChannel, actions.updateChannelSuccess)]: (
+    state,
+    { payload },
+  ) => {
+    const { channels } = state;
+    const { data: { attributes, id } } = payload;
+    const newState = {
+      ...state,
+      channels: {
+        ...channels,
+        [id]: attributes,
+      },
+    };
+    return newState;
+  },
+  [actions.removeChannelSuccess](state, { payload }) {
+    const { channels } = state;
+    const { data: { id } } = payload;
+    const newChannels = Object.values(channels)
+      .filter(channel => channel.id !== id)
+      .reduce((acc, channel) => ({
+        ...acc,
+        [channel.id]: channel,
+      }), {});
+    const newState = {
+      ...state,
+      channels: newChannels,
+    };
+    return newState;
+  },
+}, {
+  channels: {},
+});
+
+const result = handleActions({
+  [actions.changeCurrentChannelId](state, { payload }) {
+    const newState = {
+      ...state,
+      currentChannelId: payload,
+    };
+    return newState;
+  },
+  [actions.receiveMessage](state, { payload }) {
+    const { messages } = state;
+    const { data: { attributes } } = payload;
+    const newMessages = messages.concat(attributes);
+    const newState = {
+      ...state,
+      messages: newMessages,
+    };
+    return newState;
+  },
+  [actions.receiveChannel](state, { payload }) {
+    const { channels } = state;
+    const { data: { id } } = payload;
+    const newChannels = [...channels, id];
+    const newState = {
+      ...state,
+      channels: newChannels,
+    };
+    return newState;
+  },
+  [actions.removeChannelSuccess](state, { payload }) {
+    const { channels } = state;
+    const { data: { id } } = payload;
+    const newChannels = channels.filter(idx => idx !== id);
+    const newState = {
+      ...state,
+      channels: newChannels,
+    };
+    return newState;
+  },
+}, {
+  channels: [],
+  messages: [],
+  currentChannelId: 0,
+});
+
 export default combineReducers({
   channelCreatingState,
   messageCreatingState,
-  channels,
-  messages,
-  currentChannelId,
   editChannelState,
   deleteChannelState,
+  entities,
+  result,
   form: formReducer,
 });
