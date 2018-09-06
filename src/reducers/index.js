@@ -28,7 +28,7 @@ const messageCreatingState = handleActions({
 }, 'none');
 
 const channels = handleActions({
-  [actions.receiveChannelState](state, { payload }) {
+  [actions.receiveChannel](state, { payload }) {
     const { byId, allIds } = state;
     const { data: { attributes, id } } = payload;
     const newState = {
@@ -68,7 +68,7 @@ const channels = handleActions({
 });
 
 const messages = handleActions({
-  [actions.receiveMessageState](state, { payload }) {
+  [actions.receiveMessage](state, { payload }) {
     const { data: { attributes } } = payload;
     return state.concat(attributes);
   },
@@ -80,11 +80,31 @@ const currentChannelId = handleActions({
   },
 }, 0);
 
+const editChannelState = handleActions({
+  [actions.editChannel](state, { payload }) {
+    return payload;
+  },
+}, {
+  modal: false,
+  channel: null,
+});
+
+const deleteChannelState = handleActions({
+  [actions.deleteChannel](state, { payload }) {
+    return payload;
+  },
+}, {
+  modal: false,
+  id: null,
+});
+
 export default combineReducers({
   channelCreatingState,
   messageCreatingState,
   channels,
   messages,
   currentChannelId,
+  editChannelState,
+  deleteChannelState,
   form: formReducer,
 });

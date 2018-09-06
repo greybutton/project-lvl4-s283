@@ -19,7 +19,7 @@ export const addMessage = (channelId, values, reset) => async (dispatch) => {
   }
 };
 
-export const receiveMessageState = createAction('MESSAGE_STATE_RECEIVE');
+export const receiveMessage = createAction('MESSAGE_RECEIVE');
 export const changeCurrentChannelId = createAction('CHANNEL_CHANGE_CURRENT_ID');
 
 export const addChannelRequest = createAction('CHANNEL_ADD_REQUEST');
@@ -38,7 +38,9 @@ export const addChannel = (values, reset) => async (dispatch) => {
   }
 };
 
-export const receiveChannelState = createAction('CHANNEL_STATE_RECEIVE');
+export const receiveChannel = createAction('CHANNEL_RECEIVE');
+export const editChannel = createAction('CHANNEL_EDIT');
+export const deleteChannel = createAction('CHANNEL_DELETE');
 
 export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
 export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');

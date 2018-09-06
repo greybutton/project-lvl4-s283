@@ -25,11 +25,11 @@ const appStore = app(gon);
 
 const socket = io();
 socket.on('newMessage', (data) => {
-  appStore.dispatch(actionCreators.receiveMessageState(data));
+  appStore.dispatch(actionCreators.receiveMessage(data));
 });
 
 socket.on('newChannel', (data) => {
-  appStore.dispatch(actionCreators.receiveChannelState(data));
+  appStore.dispatch(actionCreators.receiveChannel(data));
 });
 
 socket.on('removeChannel', (data) => {
