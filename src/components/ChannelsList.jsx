@@ -27,7 +27,7 @@ class ChannelsList extends React.Component {
     changeCurrentChannelId(id);
   }
 
-  handleEditModalOpen = channel => (e) => {
+  handleEditModalOpen = channel => e => () => {
     e.stopPropagation();
     const { editChannel } = this.props;
     editChannel({ modal: true, channel });
@@ -59,9 +59,9 @@ class ChannelsList extends React.Component {
     deleteChannel({ modal: false, id: null });
   }
 
-  handleRemoveChannel = id => () => {
-    const { removeChannel } = this.props;
-    removeChannel(id, this.handleRemoveModalClose);
+  handleRemoveChannel = () => {
+    const { removeChannel, deleteChannelState } = this.props;
+    removeChannel(deleteChannelState.id, this.handleRemoveModalClose);
   }
 
   renderChannel = (channel) => {
@@ -161,7 +161,7 @@ class ChannelsList extends React.Component {
           <button
             type="button"
             className="btn btn-success"
-            onClick={this.handleRemoveChannel(deleteChannelState.id)}
+            onClick={this.handleRemoveChannel}
           >
             Yes
           </button>
