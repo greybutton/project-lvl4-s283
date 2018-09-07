@@ -22,12 +22,12 @@ const mapStateToProps = (state) => {
 @connect(mapStateToProps)
 @reduxForm({ form: 'updateChannel' })
 class ChannelsList extends React.Component {
-  handleClickChannel = (id) => {
+  handleClickChannel = id => () => {
     const { changeCurrentChannelId } = this.props;
     changeCurrentChannelId(id);
   }
 
-  handleEditModalOpen = (e, channel) => {
+  handleEditModalOpen = channel => (e) => {
     e.stopPropagation();
     const { editChannel } = this.props;
     editChannel({ modal: true, channel });
@@ -48,7 +48,7 @@ class ChannelsList extends React.Component {
     updateChannel(newChannel, this.handleEditModalClose);
   }
 
-  handleRemoveModalOpen = (e, id) => {
+  handleRemoveModalOpen = id => (e) => {
     e.stopPropagation();
     const { deleteChannel } = this.props;
     deleteChannel({ modal: true, id });
@@ -59,7 +59,7 @@ class ChannelsList extends React.Component {
     deleteChannel({ modal: false, id: null });
   }
 
-  handleRemoveChannel = (id) => {
+  handleRemoveChannel = id => () => {
     const { removeChannel } = this.props;
     removeChannel(id, this.handleRemoveModalClose);
   }
@@ -81,7 +81,7 @@ class ChannelsList extends React.Component {
         <button
           type="button"
           className={getClassChannelBtn(channel.id)}
-          onClick={() => this.handleClickChannel(channel.id)}
+          onClick={this.handleClickChannel(channel.id)}
         >
           {channel.name}
           {channel.removable && (
@@ -90,14 +90,14 @@ class ChannelsList extends React.Component {
                 <button
                   type="button"
                   className="btn btn-link border-0 pt-0 pb-0"
-                  onClick={e => this.handleEditModalOpen(e, channel)}
+                  onClick={this.handleEditModalOpen(channel)}
                 >
                   <FontAwesomeIcon icon="edit" color="black" />
                 </button>
                 <button
                   type="button"
                   className="btn btn-link border-0 pt-0 pb-0 pr-0"
-                  onClick={e => this.handleRemoveModalOpen(e, channel.id)}
+                  onClick={this.handleRemoveModalOpen(channel.id)}
                 >
                   <FontAwesomeIcon icon="trash-alt" color="black" />
                 </button>
@@ -161,7 +161,7 @@ class ChannelsList extends React.Component {
           <button
             type="button"
             className="btn btn-success"
-            onClick={() => this.handleRemoveChannel(deleteChannelState.id)}
+            onClick={this.handleRemoveChannel(deleteChannelState.id)}
           >
             Yes
           </button>
